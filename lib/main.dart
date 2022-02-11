@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'grid_search.dart';
 import 'home_screen.dart';
 
 void main() {
@@ -16,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: GridSearchScreen(),
+      home: HomeScreen(),
     );
   }
 }
