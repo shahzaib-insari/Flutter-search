@@ -41,6 +41,7 @@ class Controller extends GetxController {
     'Leafy greens',
     'Meat',
   ];
+  final taskUploading = false.obs;
   RxList<dynamic> _foodListSearch = ["Meat"].obs; //RxList<String>();
   //List<String?> _foodListSearch = [].obs; //RxList<String>();
 
@@ -50,14 +51,17 @@ class Controller extends GetxController {
   TextEditingController? textEditingController = TextEditingController();
 
   void updateList(String value) {
-    _foodListSearch!.value = foodList
-    .where((element) => element.toLowerCase().contains(value.toLowerCase()))
-    .toList();
-    //update();
-    if (textEditingController!.text.isNotEmpty &&
-        _foodListSearch!.length == 0) {
-      log('foodListSearch length ${_foodListSearch!.length}');
+    taskUploading.value = true;
+    _foodListSearch.value = foodList
+        .where(
+            (element) => element.toLowerCase().startsWith(value.toLowerCase()))
+        .toList();
+    // _foodListSearch.refresh();
+    update();
+    if (textEditingController!.text.isNotEmpty && _foodListSearch.length == 0) {
+      log('foodListSearch length ${_foodListSearch.length}');
     }
+    taskUploading.value = false;
   }
   //error remove kr bhaiii
 
