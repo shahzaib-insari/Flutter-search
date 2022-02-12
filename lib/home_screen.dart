@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:search/controller.dart';
 
-class HomeScreen extends GetView {
+class HomeScreen extends GetView<Controller> {
   final controller = Get.put(Controller());
 
   @override
@@ -31,63 +31,60 @@ class HomeScreen extends GetView {
               onChanged: (value) {
                 log(value);
                 //setState();
-                controller.udateList(value);
+                controller.updateList(value);
               },
             ),
           )),
-      body: Obx(
-        () => controller.textEditingController!.text.isNotEmpty &&
-                controller.foodListSearch!.length == 0
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Column(
+      body: controller.textEditingController!.text.isNotEmpty &&
+              controller.foodListSearch!.length == 0
+          ? Center(
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.search_off,
+                        size: 160,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        'No results found,\nPlease try different keyword',
+                        style: TextStyle(
+                            fontSize: 30, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
+          : ListView.builder(
+              itemCount: //controller.foodListSearch.length,
+                  controller.textEditingController!.text.isNotEmpty
+                      ? controller.foodListSearch!.length
+                      : controller.foodList.length,
+              itemBuilder: (ctx, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(
-                          Icons.search_off,
-                          size: 160,
-                        ),
+                      CircleAvatar(
+                        child: Icon(Icons.food_bank),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'No results found,\nPlease try different keyword',
-                          style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w600),
-                        ),
+                      SizedBox(
+                        width: 10,
                       ),
+                      Text(controller.textEditingController!.text.isNotEmpty
+                          ? controller.foodListSearch![index]
+                          : controller.foodList[index]),
                     ],
                   ),
-                ),
-              )
-            : ListView.builder(
-                itemCount: controller.textEditingController!.text.isNotEmpty
-                    ? controller.foodListSearch!.length
-                    : controller.foodList.length,
-                itemBuilder: (ctx, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          child: Icon(Icons.food_bank),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                            //controller.textEditingController!.text.isNotEmpty
-                            controller.foodListSearch![index]
-                            //: controller.foodList[index]
-                            ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-      ),
+                );
+              },
+            ),
     );
   }
 }

@@ -41,22 +41,25 @@ class Controller extends GetxController {
     'Leafy greens',
     'Meat',
   ];
-  RxList<String>? _foodListSearch = [""].obs; //RxList<String>();
+  RxList<dynamic> _foodListSearch = ["Meat"].obs; //RxList<String>();
+  //List<String?> _foodListSearch = [].obs; //RxList<String>();
+
   final FocusNode _textFocusNode = FocusNode();
-  get foodListSearch => _foodListSearch!.value;
+  List<dynamic> get foodListSearch => _foodListSearch.value;
   get textFocusNode => _textFocusNode;
   TextEditingController? textEditingController = TextEditingController();
 
   void updateList(String value) {
     _foodListSearch!.value = foodList
-        .where((element) => element.toLowerCase().contains(value.toLowerCase()))
-        .toList();
-    update();
+    .where((element) => element.toLowerCase().contains(value.toLowerCase()))
+    .toList();
+    //update();
     if (textEditingController!.text.isNotEmpty &&
         _foodListSearch!.length == 0) {
       log('foodListSearch length ${_foodListSearch!.length}');
     }
   }
+  //error remove kr bhaiii
 
   @override
   void dispose() {
